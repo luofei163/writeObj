@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7905A7281C141763003383AB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7905A7271C141763003383AB /* main.cpp */; };
+		793E057C1C145BE500CCDBD5 /* obj_io.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 793E05791C145BE500CCDBD5 /* obj_io.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,14 @@
 /* Begin PBXFileReference section */
 		7905A7241C141763003383AB /* cplusplus_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cplusplus_test; sourceTree = BUILT_PRODUCTS_DIR; };
 		7905A7271C141763003383AB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		793E056E1C145B6E00CCDBD5 /* obj_io_prb.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = obj_io_prb.sh; sourceTree = "<group>"; };
+		793E05711C145B6E00CCDBD5 /* obj_io.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = obj_io.sh; sourceTree = "<group>"; };
+		793E05741C145B7F00CCDBD5 /* cube_no_normals.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube_no_normals.obj; sourceTree = "<group>"; };
+		793E05751C145B7F00CCDBD5 /* cube_normals.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube_normals.obj; sourceTree = "<group>"; };
+		793E05761C145B7F00CCDBD5 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
+		793E05771C145B7F00CCDBD5 /* obj_io_prb_output.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = obj_io_prb_output.txt; sourceTree = "<group>"; };
+		793E05791C145BE500CCDBD5 /* obj_io.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = obj_io.cpp; sourceTree = "<group>"; };
+		793E057A1C145BE500CCDBD5 /* obj_io.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = obj_io.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,9 +66,25 @@
 		7905A7261C141763003383AB /* cplusplus_test */ = {
 			isa = PBXGroup;
 			children = (
+				793E056C1C145B2A00CCDBD5 /* src */,
 				7905A7271C141763003383AB /* main.cpp */,
 			);
 			path = cplusplus_test;
+			sourceTree = "<group>";
+		};
+		793E056C1C145B2A00CCDBD5 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				793E05791C145BE500CCDBD5 /* obj_io.cpp */,
+				793E057A1C145BE500CCDBD5 /* obj_io.hpp */,
+				793E05741C145B7F00CCDBD5 /* cube_no_normals.obj */,
+				793E05751C145B7F00CCDBD5 /* cube_normals.obj */,
+				793E05761C145B7F00CCDBD5 /* cube.obj */,
+				793E05771C145B7F00CCDBD5 /* obj_io_prb_output.txt */,
+				793E056E1C145B6E00CCDBD5 /* obj_io_prb.sh */,
+				793E05711C145B6E00CCDBD5 /* obj_io.sh */,
+			);
+			name = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				793E057C1C145BE500CCDBD5 /* obj_io.cpp in Sources */,
 				7905A7281C141763003383AB /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,6 +263,7 @@
 				7905A72D1C141763003383AB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
