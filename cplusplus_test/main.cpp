@@ -15,11 +15,16 @@ using namespace std;
 
 # include "obj_io.hpp"
 
-int main ( int argc, char *argv[] );
+//int main ( int argc, char *argv[] );
 void test01 ( string filename );
 void test02 ( string filename );
 void test03 ( string filename );
 void test04 ( string filename );
+void getFaces(double (*node_xyz)[4], int x, int y);
+int countFace(double (*node_xyz)[4], int x, int y);
+
+
+
 
 //****************************************************************************80
 
@@ -80,6 +85,15 @@ int main ( int argc, char *argv[] )
     
     timestamp ( );
     
+//    double (*node_xyz)[5];
+    double b[][4]={
+        {1.0,2.0,3.0,4.0},
+        {2.0,2.0,3.0,4.0},
+        {3.0,4.0,5.0,6.0}
+    };
+//    node_xyz = b;
+    cout << countFace(b,3,4) <<endl;
+    getFaces(b,3,4);
     return 0;
 }
 //****************************************************************************80
@@ -274,5 +288,30 @@ void test03 ( string output_filename )
 # undef NODE_NUM
 # undef NORMAL_NUM
 # undef ORDER_MAX
+}
+
+int countFace(double (*node_xyz)[4], int x, int y )
+{
+    
+    for (int i = 0; i < x; i++) {
+        for (int z=0; z < y; z++) {
+            cout << node_xyz[i][z] << " ";
+        }
+        cout<<endl;
+    }
+
+    return (x-1) * (y-1) * 2;
+}
+
+void getFaces(double (*node_xyz)[4], int x, int y )
+{
+    cout << "getFaces method" << endl;
+    for (int i = 0; i < x; i++) {
+        for (int z=0; z < y; z++) {
+            cout << node_xyz[i][z] << " ";
+        }
+        cout<<endl;
+    }
+
 }
 
