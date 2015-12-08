@@ -88,11 +88,11 @@ int main ( int argc, char *argv[] )
 //    double (*node_xyz)[5];
     double b[][4]={
         {1.0,2.0,3.0,4.0},
-        {2.0,2.0,3.0,4.0},
-        {3.0,4.0,5.0,6.0}
+        {5.0,6.0,7.0,8.0},
+        {9.0,10.0,11.0,12.0}
     };
 //    node_xyz = b;
-    cout << countFace(b,3,4) <<endl;
+    countFace(b,3,4);
     getFaces(b,3,4);
     return 0;
 }
@@ -303,15 +303,39 @@ int countFace(double (*node_xyz)[4], int x, int y )
     return (x-1) * (y-1) * 2;
 }
 
-void getFaces(double (*node_xyz)[4], int x, int y )
+void getFaces(double (*node_xyz)[4], int row, int line )
 {
     cout << "getFaces method" << endl;
-    for (int i = 0; i < x; i++) {
-        for (int z=0; z < y; z++) {
-            cout << node_xyz[i][z] << " ";
+
+    
+    int faces[12][3];
+    int face_num = 0;
+    cout << "row " << row<<endl;
+    cout << "line " << line<<endl;
+    for (int i = 0; i < row-1; i++) {
+        for (int j =0 ; j < line-1; j++,face_num++) {
+               
+            faces[face_num][0] = node_xyz[i][j];
+            faces[face_num][1] = node_xyz[i+1][j];
+            faces[face_num][2] = node_xyz[i+1][j+1];
+            face_num++;
+            faces[face_num][0] = node_xyz[i][j+1];
+            faces[face_num][1] = node_xyz[i][j];
+            faces[face_num][2] = node_xyz[i+1][j+1];
+                    
         }
-        cout<<endl;
     }
 
+
+    
+    for (int i=0; i<12; i++) {
+        for (int j=0; j<3; j++) {
+            cout << faces[i][j]<< " ";
+        }
+        cout << endl;
+    }
+    
+    
 }
+
 
