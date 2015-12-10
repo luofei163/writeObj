@@ -10,7 +10,7 @@
 # include <iostream>
 # include <iomanip>
 # include <fstream>
-
+# include <vector>
 using namespace std;
 
 # include "obj_io.hpp"
@@ -22,7 +22,7 @@ void test03 ( string filename );
 void test04 ( string filename );
 void getFaces(double (*node_xyz)[4], int x, int y);
 int countFace(double (*node_xyz)[4], int x, int y);
-
+void vectorArrayPrint(vector<vector<int>> it);
 
 
 
@@ -92,9 +92,64 @@ int main ( int argc, char *argv[] )
         {9.0,10.0,11.0,12.0}
     };
 //    node_xyz = b;
-    countFace(b,3,4);
-    getFaces(b,3,4);
+//    countFace(b,3,4);
+//    getFaces(b,3,4);
+    
+    vector<vector<int>> it;
+     int size = 6;
+//    it.resize(size);
+//    for (int i=0; i<size; i++) {
+//        it[i].resize(5);
+//    }
+    
+     vector<int> row1 = {1,2,3,4,5};
+     vector<int> row2 = {7,8,9,10,11};
+     vector<int> row3 = {12,13,14,15,16};
+     vector<int> row4 = {17,18,19,20,21};
+     vector<int> row5 = {22,23,24,25,26};
+     vector<int> row6 = {27,28,29,30,31};
+    cout <<"it f = " <<  it.size()<<endl;
+
+    it.push_back(row1);
+    it.push_back(row2);
+    it.push_back(row3);
+    it.push_back(row4);
+    it.push_back(row5);
+    it.push_back(row6);
+    
+    cout << it.size() <<endl;
+    vectorArrayPrint(it);
+
+    
+//
     return 0;
+}
+
+void getFacesVector(vector<vector<int>> vetex )
+{
+    cout << "getFacesVector method" << endl;
+    
+    
+    vector<int> faces;
+    
+    
+    for (vector<vector<int>>::iterator i = vetex.begin();i != vetex.end(); i++) {
+        for (vector<int>::iterator j = (*i).begin(); j != (*i).end(); j++) {
+            faces.push_back(*j);
+            cout << *j << " ";
+        }
+    }
+
+}
+
+void vectorArrayPrint(vector<vector<int>> it)
+{
+    for (vector<vector<int>>::iterator i = it.begin();i != it.end(); i++) {
+        for (vector<int>::iterator j = (*i).begin(); j != (*i).end(); j++) {
+            cout << *j << " ";
+        }
+        cout << endl;
+    }
 }
 //****************************************************************************80
 
@@ -303,6 +358,8 @@ int countFace(double (*node_xyz)[4], int x, int y )
     return (x-1) * (y-1) * 2;
 }
 
+
+
 void getFaces(double (*node_xyz)[4], int row, int line )
 {
     cout << "getFaces method" << endl;
@@ -337,5 +394,4 @@ void getFaces(double (*node_xyz)[4], int row, int line )
     
     
 }
-
 
