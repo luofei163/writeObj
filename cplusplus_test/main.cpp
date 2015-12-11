@@ -11,6 +11,7 @@
 # include <iomanip>
 # include <fstream>
 # include <vector>
+
 using namespace std;
 
 # include "obj_io.hpp"
@@ -23,8 +24,16 @@ void test04 ( string filename );
 void getFaces(double (*node_xyz)[4], int x, int y);
 int countFace(double (*node_xyz)[4], int x, int y);
 void vectorArrayPrint(vector<vector<int>> it);
+vector<vector<int>> getFacesVector(vector<vector<int>> vetex , int row, int col);
+void storeVetex();
+std::vector<std::string> split(std::string str,std::string pattern);
 
-
+typedef struct Point3D{
+    int x;
+    int y;
+    int z;
+}Point3D;
+vector<Point3D> vetex;
 
 //****************************************************************************80
 
@@ -121,27 +130,117 @@ int main ( int argc, char *argv[] )
     vectorArrayPrint(it);
 
     
+    vector<vector<int>> test;
+    test = getFacesVector(it,6,5);
+    
+    vectorArrayPrint(test);
+    
+//    vector<Point3D> pointList;
+
+    
+   
+    
+    vetex.push_back({5,6,7});
+    
+    cout << vetex[0].z<<endl;
+    
+
+    string s = "123 456 789 333 444";
+    vector<string> result;
+    result = split(s, " ");
+    for (vector<string>::iterator i=result.begin(); i != result.end(); i++) {
+        cout << *i << endl;
+    }
+    
+    //    storeVetex();
+    
 //
     return 0;
 }
 
-void getFacesVector(vector<vector<int>> vetex )
+// Get vetex
+std::vector<std::string> split(std::string str,std::string pattern)
+{
+    std::string::size_type pos;
+    std::vector<std::string> result;
+    str+=pattern;//扩展字符串以方便操作
+    unsigned long size=str.size();
+    
+    for(unsigned long i=0; i<size; i++)
+    {
+        
+        //Get three of head value
+        if (result.size() >= 3) {
+            break;
+        }
+        
+        pos=str.find(pattern,i);
+        if(pos<size)
+        {
+            std::string s=str.substr(i,pos-i);
+            result.push_back(s);
+            i=pos+pattern.size()-1;
+        }
+        
+    
+    }
+  
+    return result;
+}
+
+void storeVetex()
+{
+    
+    ifstream fin("/Users/luofei/Desktop/tmp/writeObj/scanface3_texture.points");
+    if (!fin) {
+        cout << "Can not found scanface3_texture.points" << endl;
+        return;
+    }
+    
+    
+    string buf;
+    vector<Point3D> vetex;
+    
+    
+    
+
+    int i = 0;
+    
+    while (getline(fin, buf)) {
+        vector<string> result;
+        result = split(buf, " ");
+//        vetex.push_back({atoi(result[0]),atoi(result[1]),atoi(result[2])});
+        i++;
+    }
+    
+    cout << i << endl;
+
+    
+}
+
+// Computer faces
+vector<vector<int>> getFacesVector(vector<vector<int>> vetex , int row, int col)
 {
     cout << "getFacesVector method" << endl;
     
     
-    vector<int> faces;
-    
-    
-    for (vector<vector<int>>::iterator i = vetex.begin();i != vetex.end(); i++) {
-        for (vector<int>::iterator j = (*i).begin(); j != (*i).end(); j++) {
-            faces.push_back(*j);
-            cout << *j << " ";
+    vector<vector<int>> faces;
+
+    for (int i = 0; i < row-1; i++) {
+        for (int j = 0; j < col-1; j++) {
+            vector<int> row = {vetex[i][j], vetex[i+1][j], vetex[i+1][j+1]};
+            faces.push_back(row);
+            vector<int> row1 = {vetex[i][j],vetex[i][j+1],vetex[i+1][j+1]};
+            faces.push_back(row1);
         }
     }
+    
+    return faces;
 
 }
 
+
+// Print dyadic array
 void vectorArrayPrint(vector<vector<int>> it)
 {
     for (vector<vector<int>>::iterator i = it.begin();i != it.end(); i++) {
