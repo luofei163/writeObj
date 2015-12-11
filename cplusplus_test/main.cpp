@@ -11,6 +11,7 @@
 # include <iomanip>
 # include <fstream>
 # include <vector>
+# include <stdlib.h>
 
 using namespace std;
 
@@ -26,12 +27,12 @@ int countFace(double (*node_xyz)[4], int x, int y);
 void vectorArrayPrint(vector<vector<int>> it);
 vector<vector<int>> getFacesVector(vector<vector<int>> vetex , int row, int col);
 void storeVetex();
-std::vector<std::string> split(std::string str,std::string pattern);
+std::vector<double> split(std::string str,std::string pattern);
 
 typedef struct Point3D{
-    int x;
-    int y;
-    int z;
+    double x;
+    double y;
+    double z;
 }Point3D;
 vector<Point3D> vetex;
 
@@ -95,74 +96,78 @@ int main ( int argc, char *argv[] )
     timestamp ( );
     
 //    double (*node_xyz)[5];
-    double b[][4]={
-        {1.0,2.0,3.0,4.0},
-        {5.0,6.0,7.0,8.0},
-        {9.0,10.0,11.0,12.0}
-    };
+//    double b[][4]={
+//        {1.0,2.0,3.0,4.0},
+//        {5.0,6.0,7.0,8.0},
+//        {9.0,10.0,11.0,12.0}
+//    };
 //    node_xyz = b;
 //    countFace(b,3,4);
 //    getFaces(b,3,4);
     
-    vector<vector<int>> it;
-     int size = 6;
+//    vector<vector<int>> it;
+
 //    it.resize(size);
 //    for (int i=0; i<size; i++) {
 //        it[i].resize(5);
 //    }
-    
-     vector<int> row1 = {1,2,3,4,5};
-     vector<int> row2 = {7,8,9,10,11};
-     vector<int> row3 = {12,13,14,15,16};
-     vector<int> row4 = {17,18,19,20,21};
-     vector<int> row5 = {22,23,24,25,26};
-     vector<int> row6 = {27,28,29,30,31};
-    cout <<"it f = " <<  it.size()<<endl;
-
-    it.push_back(row1);
-    it.push_back(row2);
-    it.push_back(row3);
-    it.push_back(row4);
-    it.push_back(row5);
-    it.push_back(row6);
-    
-    cout << it.size() <<endl;
-    vectorArrayPrint(it);
-
-    
-    vector<vector<int>> test;
-    test = getFacesVector(it,6,5);
-    
-    vectorArrayPrint(test);
+//    
+//     vector<int> row1 = {1,2,3,4,5};
+//     vector<int> row2 = {7,8,9,10,11};
+//     vector<int> row3 = {12,13,14,15,16};
+//     vector<int> row4 = {17,18,19,20,21};
+//     vector<int> row5 = {22,23,24,25,26};
+//     vector<int> row6 = {27,28,29,30,31};
+//    cout <<"it f = " <<  it.size()<<endl;
+//
+//    it.push_back(row1);
+//    it.push_back(row2);
+//    it.push_back(row3);
+//    it.push_back(row4);
+//    it.push_back(row5);
+//    it.push_back(row6);
+//    
+//    cout << it.size() <<endl;
+//    vectorArrayPrint(it);
+//
+//    
+//    vector<vector<int>> test;
+//    test = getFacesVector(it,6,5);
+//    
+//    vectorArrayPrint(test);
     
 //    vector<Point3D> pointList;
 
-    
-   
-    
-    vetex.push_back({5,6,7});
-    
-    cout << vetex[0].z<<endl;
+//    
+//   
+//    
+//    vetex.push_back({5,6,7});
+//    
+//    cout << vetex[0].z<<endl;
     
 
-    string s = "123 456 789 333 444";
-    vector<string> result;
-    result = split(s, " ");
-    for (vector<string>::iterator i=result.begin(); i != result.end(); i++) {
-        cout << *i << endl;
+//    string s = "123 456 789 333 444";
+//    vector<double> result;
+//    result = split(s, " ");
+//    for (vector<double>::iterator i=result.begin(); i != result.end(); i++) {
+//        cout << *i << endl;
+//    }
+//    
+    storeVetex();
+    
+//    vetex
+    for (vector<Point3D>::iterator i=vetex.begin(); i != vetex.end(); i++) {
+        cout << (*i).x << " " <<  (*i).y << " " <<  (*i).z << endl;
     }
-    
-    //    storeVetex();
-    
-//
+
     return 0;
 }
 
 // Get vetex
-std::vector<std::string> split(std::string str,std::string pattern)
+std::vector<double> split(std::string str,std::string pattern)
 {
     std::string::size_type pos;
-    std::vector<std::string> result;
+    std::vector<double> result;
     str+=pattern;//扩展字符串以方便操作
     unsigned long size=str.size();
     
@@ -178,16 +183,19 @@ std::vector<std::string> split(std::string str,std::string pattern)
         if(pos<size)
         {
             std::string s=str.substr(i,pos-i);
-            result.push_back(s);
+            result.push_back(stod(s));
             i=pos+pattern.size()-1;
         }
         
     
     }
+
   
     return result;
 }
 
+
+// Read vetex from file and store vetex to vector<Point3D> vetex
 void storeVetex()
 {
     
@@ -196,20 +204,13 @@ void storeVetex()
         cout << "Can not found scanface3_texture.points" << endl;
         return;
     }
-    
-    
-    string buf;
-    vector<Point3D> vetex;
-    
-    
-    
 
+    string buf;
     int i = 0;
-    
     while (getline(fin, buf)) {
-        vector<string> result;
+        vector<double> result;
         result = split(buf, " ");
-//        vetex.push_back({atoi(result[0]),atoi(result[1]),atoi(result[2])});
+        vetex.push_back({result[0],result[1],result[2]});
         i++;
     }
     
@@ -238,6 +239,10 @@ vector<vector<int>> getFacesVector(vector<vector<int>> vetex , int row, int col)
     return faces;
 
 }
+
+
+ 
+
 
 
 // Print dyadic array
