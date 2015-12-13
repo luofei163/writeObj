@@ -29,6 +29,7 @@ vector<vector<int>> getFacesVector(vector<vector<int>> vetex , int row, int col)
 void storeVetex();
 std::vector<double> split(std::string str,std::string pattern);
 
+
 typedef struct Point3D{
     double x;
     double y;
@@ -36,6 +37,8 @@ typedef struct Point3D{
 }Point3D;
 vector<Point3D> vetex;
 
+
+vector<vector<int>> vetexToArray();
 //****************************************************************************80
 
 int main ( int argc, char *argv[] )
@@ -88,12 +91,12 @@ int main ( int argc, char *argv[] )
     //
     //  Terminate.
     //
-    cout << "\n";
-    cout << "OBJ_IO_PRB:\n";
-    cout << "  Normal end of execution.\n";
-    cout << "\n";
+//    cout << "\n";
+//    cout << "OBJ_IO_PRB:\n";
+//    cout << "  Normal end of execution.\n";
+//    cout << "\n";
     
-    timestamp ( );
+//    timestamp ( );
     
 //    double (*node_xyz)[5];
 //    double b[][4]={
@@ -142,8 +145,11 @@ int main ( int argc, char *argv[] )
 //   
 //    
 //    vetex.push_back({5,6,7});
+//     vetex.push_back({10,6,7});
+//    vetex.push_back({11,6,7});
 //    
 //    cout << vetex[0].z<<endl;
+//    cout << "sizef of" <<vetex.size()<<endl;
     
 
 //    string s = "123 456 789 333 444";
@@ -156,9 +162,16 @@ int main ( int argc, char *argv[] )
     storeVetex();
     
 //    vetex
-    for (vector<Point3D>::iterator i=vetex.begin(); i != vetex.end(); i++) {
-        cout << (*i).x << " " <<  (*i).y << " " <<  (*i).z << endl;
-    }
+//    for (vector<Point3D>::iterator i=vetex.begin(); i != vetex.end(); i++) {
+//        cout << (*i).x << " " <<  (*i).y << " " <<  (*i).z << endl;
+//    }
+
+    
+   vector<vector<int>> ve = vetexToArray();
+//vectorArrayPrint(ve);
+   vector<vector<int>> v =  getFacesVector(ve, 664, 1080);
+    vectorArrayPrint(v);
+//    cout << "size of " << ve.size();
 
     return 0;
 }
@@ -241,6 +254,34 @@ vector<vector<int>> getFacesVector(vector<vector<int>> vetex , int row, int col)
 }
 
 
+// Vetex to dyadic array
+vector<vector<int>> vetexToArray()
+{
+    vector<vector<int>> vetexArray;
+    int vetex_size = vetex.size();
+    int col  = 1080;
+    int row = vetex_size / col;
+  
+    vetexArray.resize(row);
+    
+    cout << "row is " << row;
+    cout << "clo is " << col;
+    for (int i = 0; i < row; i++) {
+        vetexArray[i].resize(col);
+    }
+    int vetexIndex = 0;
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++, vetexIndex++) {
+            vetexArray[i][j] = vetexIndex;
+        }
+    }
+
+//
+//    for (int i =0 ; i < vetex.size(); i++) {
+//        vetexArray.push_back(vetex);
+//    }
+    return vetexArray;
+}
  
 
 
@@ -498,4 +539,6 @@ void getFaces(double (*node_xyz)[4], int row, int line )
     
     
 }
+
+
 
