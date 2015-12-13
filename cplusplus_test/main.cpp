@@ -28,6 +28,7 @@ void vectorArrayPrint(vector<vector<int>> it);
 vector<vector<int>> getFacesVector(vector<vector<int>> vetex , int row, int col);
 void storeVetex();
 std::vector<double> split(std::string str,std::string pattern);
+void new_obj_write ( string output_filename);
 
 
 typedef struct Point3D{
@@ -43,28 +44,6 @@ vector<vector<int>> vetexToArray();
 
 int main ( int argc, char *argv[] )
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    MAIN is the main program for OBJ_IO_PRB.
-//
-//  Discussion:
-//
-//    OBJ_IO_PRB tests the OBJ_IO library.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    25 January 2011
-//
-//  Author:
-//
-//    John Burkardt
-//
 {
     string filename;
     
@@ -169,10 +148,10 @@ int main ( int argc, char *argv[] )
     
    vector<vector<int>> ve = vetexToArray();
 //vectorArrayPrint(ve);
-   vector<vector<int>> v =  getFacesVector(ve, 664, 1080);
-    vectorArrayPrint(v);
+//   vector<vector<int>> v =  getFacesVector(ve, 664, 1080);
+//    vectorArrayPrint(v);
 //    cout << "size of " << ve.size();
-
+    new_obj_write("/tmp/luofei.obj");
     return 0;
 }
 
@@ -539,6 +518,121 @@ void getFaces(double (*node_xyz)[4], int row, int line )
     
     
 }
+
+void new_obj_write ( string output_filename)
+{
+    int face;
+    int i;
+    int j;
+    int node;
+    int normal;
+    ofstream output;
+    int text_num;
+    int vertex;
+    double w;
+    
+    output.open ( output_filename.c_str ( ) );
+    
+    if ( !output )
+    {
+        cerr << "\n";
+        cerr << "OBJ_WRITE - Fatal error!\n";
+        cerr << "  Could not open the output file \"" << output_filename << "\".\n";
+        exit ( 1 );
+    }
+    
+    text_num = 0;
+    
+    output << "# " << output_filename << "\n";
+    output << "# created by obj_io::obj_write.C\n";
+    output << "\n";
+    output << "g Group001\n";
+    
+    text_num = text_num + 4;
+    //
+    //  V: vertex coordinates.
+    //  For some reason, a fourth "coordinate" may be recommended.
+    //  What is its meaning?
+    //
+    int node_num = vetex.size();
+    if ( 0 < node_num )
+    {
+        output << "\n";
+        text_num = text_num + 1;
+    }
+    
+    w = 1.0;
+    for ( node = 0; node < node_num; node++ )
+    {
+        output << "v";
+        output << "  " << vetex[node].x;
+        output << "  " << vetex[node].y;
+        output << "  " << vetex[node].z << endl;
+        
+//        output << "  " << w << "\n";
+        text_num = text_num + 1;
+    }
+    //
+    //  VN: normal vectors.
+    //
+//    if ( 0 < normal_num )
+//    {
+//        output << "\n";
+//        text_num = text_num + 1;
+//        
+//        for ( normal = 0; normal < normal_num; normal++ )
+//        {
+//            output << "vn";
+//            for ( i = 0; i < 3; i++ )
+//            {
+//                output << "  " << normal_vector[i+normal*3];
+//            }
+//            output << "\n";
+//            text_num = text_num + 1;
+//        }
+//    }
+    //
+    //  F: Faces, specified as a list of triples, one triple for each vertex:
+    //     vertex index/vertex texture index/vertex normal index
+    //
+    
+    vector<vector<int>> ve = vetexToArray();
+    vector<vector<int>> v =  getFacesVector(ve, 664, 1080);
+    
+    int face_num = v.size();
+    
+    cout << "face_num of " << v.size()<< endl;
+    if ( 0 < face_num )
+    {
+        output << "\n";
+        text_num = text_num + 1;
+    }
+
+    for ( face = 0; face < face_num; face++ )
+    {
+        output << "f";
+        for (int i = 0 ; i < 3; i++) {
+            output << "  " << v[face][i]<< "//";
+        }
+        output << "\n";
+        text_num = text_num + 1;
+    }
+    
+    output.close ( );
+    //
+    //  Report.
+    //
+    if ( false )
+    {
+        cout << "\n";
+        cout << "OBJ_WRITE:\n";
+        cout << "  Wrote " << text_num << " text lines to \""
+        << output_filename << "\"\n";
+    }
+    
+    return;
+}
+
 
 
 
