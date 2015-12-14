@@ -12,6 +12,7 @@
 # include <fstream>
 # include <vector>
 # include <stdlib.h>
+# include <math.h>
 
 using namespace std;
 
@@ -31,13 +32,14 @@ std::vector<double> split(std::string str,std::string pattern);
 void new_obj_write ( string output_filename);
 
 
+
 typedef struct Point3D{
     double x;
     double y;
     double z;
 }Point3D;
 vector<Point3D> vetex;
-
+bool checkFacesVector(Point3D a, Point3D b, Point3D c);
 
 vector<vector<int>> vetexToArray();
 //****************************************************************************80
@@ -232,6 +234,18 @@ vector<vector<int>> getFacesVector(vector<vector<int>> vetex , int row, int col)
 
 }
 
+bool checkFacesVector(Point3D a, Point3D b, Point3D c)
+{
+    double max = 10000.0;
+    double A = pow((a.x - b.x),2) + pow((a.y - b.y), 2) + pow((a.z - b.z), 2);
+    double B = pow((a.x - c.x),2) + pow((a.y - c.y), 2) + pow((a.z - c.z), 2);
+    double C = pow((c.x - b.x),2) + pow((c.y - b.y), 2) + pow((c.z - b.z), 2);
+    if ((A > max) || (B > max) || (C > max)) {
+        return false;
+    }
+    return true;
+}
+
 
 // Vetex to dyadic array
 vector<vector<int>> vetexToArray()
@@ -275,106 +289,7 @@ void vectorArrayPrint(vector<vector<int>> it)
         cout << endl;
     }
 }
-//****************************************************************************80
 
-void test01 ( string filename )
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST01 tests OBJ_SIZE.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    31 March 2011
-//
-//  Author:
-//
-//    John Burkardt
-//
-{
-    int face_num;
-    int node_num;
-    int normal_num;
-    int order_max;
-    
-    cout << "\n";
-    cout << "TEST01\n";
-    cout << "  OBJ_SIZE determines the size of various objects\n";
-    cout << "  in an OBJ file.\n";
-    
-    obj_size ( filename, &node_num, &face_num, &normal_num, &order_max );
-    
-    obj_size_print ( filename, node_num, face_num, normal_num, order_max );
-    
-    return;
-}
-//****************************************************************************80
-
-void test02 ( string input_file_name )
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST02 tests OBJ_READ.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    31 March 2011
-//
-//  Author:
-//
-//    John Burkardt
-//
-{
-    int *face_node;
-    int face_num;
-    int *face_order;
-    int node_num;
-    double *node_xyz;
-    double *normal_vector;
-    int normal_num;
-    int order_max;
-    int *vertex_normal;
-    
-    cout << "\n";
-    cout << "TEST02\n";
-    cout << "  OBJ_READ reads an object in an OBJ file.\n";
-    
-    obj_size ( input_file_name, &node_num, &face_num, &normal_num, &order_max );
-    
-    face_node = new int[order_max*face_num];
-    face_order = new int[face_num];
-    node_xyz = new double[3*node_num];
-    normal_vector = new double[3*normal_num];
-    vertex_normal = new int[order_max*face_num];
-    
-    //obj_read ( input_file_name, node_num, face_num, normal_num,
-    //  order_max, node_xyz, face_order, face_node, normal_vector, vertex_normal );
-    
-    obj_face_node_print ( face_num, order_max, face_order, face_node );
-    obj_normal_vector_print ( normal_num, normal_vector );
-    obj_node_xyz_print ( node_num, node_xyz );
-    
-    delete [] face_node;
-    delete [] face_order;
-    delete [] node_xyz;
-    delete [] normal_vector;
-    delete [] vertex_normal;
-    
-    return;
-}
-//****************************************************************************80
 
 void test03 ( string output_filename )
 
@@ -607,16 +522,25 @@ void new_obj_write ( string output_filename)
         output << "\n";
         text_num = text_num + 1;
     }
-
+    
+    int sum = 0;
     for ( face = 0; face < face_num; face++ )
     {
         output << "f";
-        for (int i = 0 ; i < 3; i++) {
-            output << "  " << v[face][i]<< "//";
+        bool check = checkFacesVector(vetex[v[face][0]], vetex[v[face][1]], vetex[v[face][2]]);
+        if (check){
+            for (int i = 0 ; i < 3; i++) {
+                output << "  " << v[face][i]<< "//";
+            }
+        }else{
+            sum ++;
         }
+        
         output << "\n";
         text_num = text_num + 1;
     }
+    
+    cout << "remove face_num of " << sum<<endl;
     
     output.close ( );
     //
