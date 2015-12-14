@@ -236,7 +236,7 @@ vector<vector<int>> getFacesVector(vector<vector<int>> vetex , int row, int col)
 
 bool checkFacesVector(Point3D a, Point3D b, Point3D c)
 {
-    double max = 10000.0;
+    double max = 50.0;
     double A = pow((a.x - b.x),2) + pow((a.y - b.y), 2) + pow((a.z - b.z), 2);
     double B = pow((a.x - c.x),2) + pow((a.y - c.y), 2) + pow((a.z - c.z), 2);
     double C = pow((c.x - b.x),2) + pow((c.y - b.y), 2) + pow((c.z - b.z), 2);
@@ -526,9 +526,10 @@ void new_obj_write ( string output_filename)
     int sum = 0;
     for ( face = 0; face < face_num; face++ )
     {
-        output << "f";
+       
         bool check = checkFacesVector(vetex[v[face][0]], vetex[v[face][1]], vetex[v[face][2]]);
         if (check){
+            output << "f";
             for (int i = 0 ; i < 3; i++) {
                 output << "  " << v[face][i]<< "//";
             }
