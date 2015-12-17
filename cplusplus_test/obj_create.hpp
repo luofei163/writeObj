@@ -31,10 +31,6 @@ class Obj
 
 
 public:
-    
-
-    
-    vector<Point3D> vetex;
   
     void vectorArrayPrint(vector<vector<int> > it);
 
@@ -45,7 +41,6 @@ public:
     
     bool checkFacesVector(Point3D a, Point3D b, Point3D c);
     
-//    vector<vector<int> > vetexToArray();
     vector<vector<int> > vetexToArray(vector<Point3D> &vetex);
     vector<vector<int> > getFacesVector(vector<vector<int> > &vetex , int row, int col);
 
