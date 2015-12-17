@@ -35,9 +35,9 @@ public:
     void vectorArrayPrint(vector<vector<int> > it);
 
   
-    void storeVertex(vector<Point3D> &vertex);
+    void storeVertex(vector<Point3D> &vertex, string &pointFile);
     std::vector<double> split(std::string str,std::string pattern);
-    void new_obj_write ( string output_filename, vector<Point3D> &vertex,  vector<vector<int> > vertexArray, vector<vector<int> > facesVector);
+    void new_obj_write ( string outputFile, vector<Point3D> &vertex,  vector<vector<int> > vertexArray, vector<vector<int> > facesVector);
     
     bool checkFacesVector(Point3D a, Point3D b, Point3D c);
     

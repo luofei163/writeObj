@@ -41,10 +41,10 @@ std::vector<double> Obj::split(std::string str,std::string pattern)
 
 
 // Read vertex from file and store vertex to vector<Point3D> vertex
-void Obj::storeVertex(vector<Point3D> &vertex)
+void Obj::storeVertex(vector<Point3D> &vertex, string &pointFile)
 {
 
-    ifstream fin("/Users/luofei/Desktop/tmp/writeObj/scanface3_texture.points");
+    ifstream fin(pointFile);
     if (!fin) {
         cout << "Can not found scanface3_texture.points" << endl;
         return;
@@ -142,31 +142,28 @@ void Obj::vectorArrayPrint(vector<vector<int> > it)
 }
 
 
-void Obj::new_obj_write ( string output_filename, vector<Point3D> &vertex,  vector<vector<int> > vertexArray, vector<vector<int> > facesVector)
+void Obj::new_obj_write ( string outputFile, vector<Point3D> &vertex,  vector<vector<int> > vertexArray, vector<vector<int> > facesVector)
 {
     int face;
-    int i;
-    int j;
     int node;
-    int normal;
     ofstream output;
     int text_num;
 //    int vertex;
     double w;
     
-    output.open ( output_filename.c_str ( ) );
+    output.open (outputFile.c_str ( ) );
     
     if ( !output )
     {
         cerr << "\n";
         cerr << "OBJ_WRITE - Fatal error!\n";
-        cerr << "  Could not open the output file \"" << output_filename << "\".\n";
+        cerr << "  Could not open the output file \"" << outputFile << "\".\n";
         exit ( 1 );
     }
     
     text_num = 0;
     
-    output << "# " << output_filename << "\n";
+    output << "# " << outputFile << "\n";
     output << "# created by obj_io::obj_write.C\n";
     output << "\n";
     output << "g Group001\n";
@@ -261,7 +258,7 @@ void Obj::new_obj_write ( string output_filename, vector<Point3D> &vertex,  vect
         cout << "\n";
         cout << "OBJ_WRITE:\n";
         cout << "  Wrote " << text_num << " text lines to \""
-        << output_filename << "\"\n";
+        << outputFile << "\"\n";
     }
     
     return;
