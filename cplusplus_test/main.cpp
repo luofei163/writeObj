@@ -100,12 +100,12 @@ int main ( int argc, char *argv[] )
 //    
 //   
 //    
-//    vetex.push_back({5,6,7});
-//     vetex.push_back({10,6,7});
-//    vetex.push_back({11,6,7});
+//    vertex.push_back({5,6,7});
+//     vertex.push_back({10,6,7});
+//    vertex.push_back({11,6,7});
 //    
-//    cout << vetex[0].z<<endl;
-//    cout << "sizef of" <<vetex.size()<<endl;
+//    cout << vertex[0].z<<endl;
+//    cout << "sizef of" <<vertex.size()<<endl;
     
 
 //    string s = "123 456 789 333 444";
@@ -117,21 +117,21 @@ int main ( int argc, char *argv[] )
 //
     
     Obj *o = new Obj();
-//    o->vetex;
-    vector<Point3D> vetex;
-//    vetex= (vector<Point3D>)malloc(sizeof(Point3D));
+//    o->vertex;
+    vector<Point3D> vertex;
+//    vertex= (vector<Point3D>)malloc(sizeof(Point3D));
 //    Point3D *point = (Point3D *)malloc(sizeof(Point3D));
-//    o->vetex = (vector<Point3D>  *)malloc(sizeof(vector<Point3D>));
+//    o->vertex = (vector<Point3D>  *)malloc(sizeof(vector<Point3D>));
 
     
-//    vetex
-//    for (vector<Point3D>::iterator i=vetex.begin(); i != vetex.end(); i++) {
+//    vertex
+//    for (vector<Point3D>::iterator i=vertex.begin(); i != vertex.end(); i++) {
 //        cout << (*i).x << " " <<  (*i).y << " " <<  (*i).z << endl;
 //
-    o->storeVetex(vetex);
+    o->storeVertex(vertex);
     
     
-   vector<vector<int>> ve = o->vetexToArray(vetex);
+   vector<vector<int>> ve = o->vertexToArray(vertex);
   
 //vectorArrayPrint(ve);
 //   vector<vector<int>> v =  getFacesVector(ve, 664, 1080);
@@ -139,7 +139,7 @@ int main ( int argc, char *argv[] )
 //    cout << "size of " << ve.size();
     vector<vector<int>> v =  o->getFacesVector(ve, 664, 1080);
 //  o->vectorArrayPrint(v);
-    o->new_obj_write("/tmp/luofei.obj",vetex, ve, v);
+    o->new_obj_write("/tmp/luofei.obj",vertex, ve, v);
 //    delete [] o;
     return 0;
 }

@@ -8,7 +8,7 @@
 
 #include "obj_create.hpp"
 
-// Get vetex
+// Get vertex
 std::vector<double> Obj::split(std::string str,std::string pattern)
 {
     std::string::size_type pos;
@@ -40,8 +40,8 @@ std::vector<double> Obj::split(std::string str,std::string pattern)
 }
 
 
-// Read vetex from file and store vetex to vector<Point3D> vetex
-void Obj::storeVetex(vector<Point3D> &vetex)
+// Read vertex from file and store vertex to vector<Point3D> vertex
+void Obj::storeVertex(vector<Point3D> &vertex)
 {
 
     ifstream fin("/Users/luofei/Desktop/tmp/writeObj/scanface3_texture.points");
@@ -55,7 +55,7 @@ void Obj::storeVetex(vector<Point3D> &vetex)
     while (getline(fin, buf)) {
         vector<double> result;
         result = split(buf, " ");
-        vetex.push_back({result[0],result[1],result[2]});
+        vertex.push_back({result[0],result[1],result[2]});
         i++;
     }
 
@@ -65,7 +65,7 @@ void Obj::storeVetex(vector<Point3D> &vetex)
 }
 
 // Computer faces
-vector<vector<int> > Obj::getFacesVector(vector<vector<int> > &vetex , int row, int col)
+vector<vector<int> > Obj::getFacesVector(vector<vector<int> > &vertex , int row, int col)
 {
     cout << "getFacesVector method" << endl;
 
@@ -74,9 +74,9 @@ vector<vector<int> > Obj::getFacesVector(vector<vector<int> > &vetex , int row, 
 
     for (int i = 0; i < row-1; i++) {
         for (int j = 0; j < col-1; j++) {
-            vector<int> row = {vetex[i][j], vetex[i+1][j], vetex[i+1][j+1]};
+            vector<int> row = {vertex[i][j], vertex[i+1][j], vertex[i+1][j+1]};
             faces.push_back(row);
-            vector<int> row1 = {vetex[i][j],vetex[i][j+1],vetex[i+1][j+1]};
+            vector<int> row1 = {vertex[i][j],vertex[i][j+1],vertex[i+1][j+1]};
             faces.push_back(row1);
         }
     }
@@ -98,33 +98,33 @@ bool Obj::checkFacesVector(Point3D a, Point3D b, Point3D c)
 }
 
 
-// Vetex to dyadic array
-vector<vector<int> > Obj::vetexToArray(vector<Point3D> &vetex)
+// vertex to dyadic array
+vector<vector<int> > Obj::vertexToArray(vector<Point3D> &vertex)
 {
-    vector<vector<int> > vetexArray;
-    int vetex_size = vetex.size();
+    vector<vector<int> > vertexArray;
+    int vertex_size = vertex.size();
     int col  = 1080;
-    int row = vetex_size / col;
+    int row = vertex_size / col;
 
-    vetexArray.resize(row);
+    vertexArray.resize(row);
 
     cout << "row is " << row;
     cout << "clo is " << col;
     for (int i = 0; i < row; i++) {
-        vetexArray[i].resize(col);
+        vertexArray[i].resize(col);
     }
-    int vetexIndex = 0;
+    int vertexIndex = 0;
     for (int i = 0; i < row; i++) {
-        for (int j = 0; j < col; j++, vetexIndex++) {
-            vetexArray[i][j] = vetexIndex;
+        for (int j = 0; j < col; j++, vertexIndex++) {
+            vertexArray[i][j] = vertexIndex;
         }
     }
 
 //
-//    for (int i =0 ; i < vetex.size(); i++) {
-//        vetexArray.push_back(vetex);
+//    for (int i =0 ; i < vertex.size(); i++) {
+//        vertexArray.push_back(vertex);
 //    }
-    return vetexArray;
+    return vertexArray;
 }
 
 
@@ -142,7 +142,7 @@ void Obj::vectorArrayPrint(vector<vector<int> > it)
 }
 
 
-void Obj::new_obj_write ( string output_filename, vector<Point3D> &vetex,  vector<vector<int> > vetexArray, vector<vector<int> > facesVector)
+void Obj::new_obj_write ( string output_filename, vector<Point3D> &vertex,  vector<vector<int> > vertexArray, vector<vector<int> > facesVector)
 {
     int face;
     int i;
@@ -151,7 +151,7 @@ void Obj::new_obj_write ( string output_filename, vector<Point3D> &vetex,  vecto
     int normal;
     ofstream output;
     int text_num;
-    int vertex;
+//    int vertex;
     double w;
     
     output.open ( output_filename.c_str ( ) );
@@ -177,7 +177,7 @@ void Obj::new_obj_write ( string output_filename, vector<Point3D> &vetex,  vecto
     //  For some reason, a fourth "coordinate" may be recommended.
     //  What is its meaning?
     //
-    int node_num = vetex.size();
+    int node_num = vertex.size();
     if ( 0 < node_num )
     {
         output << "\n";
@@ -188,9 +188,9 @@ void Obj::new_obj_write ( string output_filename, vector<Point3D> &vetex,  vecto
     for ( node = 0; node < node_num; node++ )
     {
         output << "v";
-        output << "  " << vetex[node].x;
-        output << "  " << vetex[node].y;
-        output << "  " << vetex[node].z << endl;
+        output << "  " << vertex[node].x;
+        output << "  " << vertex[node].y;
+        output << "  " << vertex[node].z << endl;
         
         //        output << "  " << w << "\n";
         text_num = text_num + 1;
@@ -219,7 +219,7 @@ void Obj::new_obj_write ( string output_filename, vector<Point3D> &vetex,  vecto
     //     vertex index/vertex texture index/vertex normal index
     //
     
-    vector<vector<int> > ve = vetexArray;
+    vector<vector<int> > ve = vertexArray;
 //    vector<vector<int>> v =  getFacesVector(ve, 664, 1080);
     vector<vector<int> > v = facesVector;
     
@@ -236,7 +236,7 @@ void Obj::new_obj_write ( string output_filename, vector<Point3D> &vetex,  vecto
     for ( face = 0; face < face_num; face++ )
     {
         
-        bool check = checkFacesVector(vetex[v[face][0]], vetex[v[face][1]], vetex[v[face][2]]);
+        bool check = checkFacesVector(vertex[v[face][0]], vertex[v[face][1]], vertex[v[face][2]]);
         if (check){
             output << "f";
             for (int i = 0 ; i < 3; i++) {
