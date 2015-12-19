@@ -74,8 +74,8 @@ vector<vector<int> > Obj::getFacesVector(vector<vector<int> > &vertex , int row,
 
     for (int i = 0; i < row-1; i++) {
         for (int j = 0; j < col-1; j++) {
-            vector<int> row = {vertex[i][j], vertex[i+1][j], vertex[i+1][j+1]};
-            faces.push_back(row);
+            vector<int> row2 = {vertex[i][j], vertex[i+1][j], vertex[i+1][j+1]};
+            faces.push_back(row2);
             vector<int> row1 = {vertex[i][j],vertex[i][j+1],vertex[i+1][j+1]};
             faces.push_back(row1);
         }
@@ -97,13 +97,30 @@ bool Obj::checkFacesVector(Point3D a, Point3D b, Point3D c)
     return true;
 }
 
+// Computer Point3D normal
+Normal3D Obj::getNormal(Point3D a, Point3D b, Point3D c)
+{
+//                      a                     b               c
+//    vn : 根据pixel (x,y,z) 和周围两个点(x1, y1, z1) (x2, y2, z2) 计算如下向量
+//    
+//    { (y-y1)(z-z2)-(y-y2)(z-z1) , (z-z1)(x-x2)-(z-z2)(x-x1) , (x-x1)(y-y2)-(y-y1)(x-x2) }
+    
+    Normal3D normal;
+    
+    normal.x = (a.y - b.y)*(a.z - c.z) - (a.y - c.y)*(a.z - b.z);
+    normal.y = (a.z - b.z)*(a.x - c.x) - (a.z - c.z)*(a.x - b.x);
+    normal.z =  (a.x - b.x)*(a.y - c.y) - (a.y - b.y)*(a.x - c.x);
+    
+    return normal;
+
+}
 
 // vertex to dyadic array
-vector<vector<int> > Obj::vertexToArray(vector<Point3D> &vertex)
+vector<vector<int> > Obj::vertexToArray(vector<Point3D> &vertex , int col)
 {
     vector<vector<int> > vertexArray;
     int vertex_size = vertex.size();
-    int col  = 1080;
+//    int col  = 9;
     int row = vertex_size / col;
 
     vertexArray.resize(row);
@@ -150,6 +167,7 @@ void Obj::new_obj_write ( string outputFile, vector<Point3D> &vertex,  vector<ve
     int text_num;
 //    int vertex;
     double w;
+    int normal_num;
     
     output.open (outputFile.c_str ( ) );
     
@@ -212,14 +230,40 @@ void Obj::new_obj_write ( string outputFile, vector<Point3D> &vertex,  vector<ve
     //        }
     //    }
     //
-    //  F: Faces, specified as a list of triples, one triple for each vertex:
-    //     vertex index/vertex texture index/vertex normal index
-    //
+
+    
+    
     
     vector<vector<int> > ve = vertexArray;
 //    vector<vector<int>> v =  getFacesVector(ve, 664, 1080);
     vector<vector<int> > v = facesVector;
     
+    //-----
+    normal_num = vertex.size();
+    int face_num1 = v.size();
+    if ( 0 < normal_num )
+    {
+        output << "\n";
+        text_num = text_num + 1;
+        
+        for (int face = 0; face < face_num1; face++ )
+        {
+            Normal3D normal3d = getNormal(vertex[v[face][0]], vertex[v[face][1]], vertex[v[face][2]]);
+           
+            output << "vn";
+            output << "  " << normal3d.x;
+            output << "  " << normal3d.y;
+            output << "  " << normal3d.z;
+            output << "\n";
+        }
+    }
+    //---end
+    
+    
+    //  F: Faces, specified as a list of triples, one triple for each vertex:
+    //     vertex index/vertex texture index/vertex normal index
+    //
+
     int face_num = v.size();
     
     cout << "face_num of " << v.size()<< endl;
@@ -234,11 +278,23 @@ void Obj::new_obj_write ( string outputFile, vector<Point3D> &vertex,  vector<ve
     {
         
         bool check = checkFacesVector(vertex[v[face][0]], vertex[v[face][1]], vertex[v[face][2]]);
+//        Normal3D normal3d = getNormal(vertex[v[face][0]], vertex[v[face][1]], vertex[v[face][2]]);
         if (check){
             output << "f";
+//            for (int i = 0 ; i < 3; i++) {
+//                output << "  " << v[face][i]<< "//";
+//            
+//            }
             for (int i = 0 ; i < 3; i++) {
-                output << "  " << v[face][i]<< "//";
+//                output << "  " << v[face][i]<< "/" << v[face][i] << "/" << face;
+                 output << "  " << v[face][i] + 1<< "//" << face + 1;
+                
             }
+            
+//            output << "  " << v[face][0]<< "/" << normal3d.x  << "/";
+//            output << "  " << v[face][1]<< "/" << normal3d.y  << "/";
+//            output << "  " << v[face][2]<< "/" << normal3d.z  << "/";
+            
         }else{
             sum ++;
         }

@@ -34,11 +34,11 @@ int main ( int argc, char *argv[] )
     o->storeVertex(vertex, pointFile);
     
     
-   vector<vector<int>> ve = o->vertexToArray(vertex);
+   vector<vector<int>> ve = o->vertexToArray(vertex, 1080);
   
 //vectorArrayPrint(ve);
 //   vector<vector<int>> v =  getFacesVector(ve, 664, 1080);
-//    vectorArrayPrint(v);
+//    o->vectorArrayPrint(ve);
 //    cout << "size of " << ve.size();
     vector<vector<int>> v =  o->getFacesVector(ve, 664, 1080);
 //  o->vectorArrayPrint(v);

@@ -24,6 +24,13 @@ typedef struct Point3D{
 }Point3D;
 
 
+typedef struct Normal3D{
+    double x;
+    double y;
+    double z;
+}Normal3D;
+
+
 class Obj
 {
     
@@ -41,7 +48,9 @@ public:
     
     bool checkFacesVector(Point3D a, Point3D b, Point3D c);
     
-    vector<vector<int> > vertexToArray(vector<Point3D> &vertex);
+    Normal3D getNormal(Point3D a, Point3D b, Point3D c);
+    
+    vector<vector<int> > vertexToArray(vector<Point3D> &vertex, int col);
     vector<vector<int> > getFacesVector(vector<vector<int> > &vertex , int row, int col);
 
     
